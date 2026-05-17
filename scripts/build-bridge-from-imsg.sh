@@ -1,23 +1,16 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-IMSG_SRC="${IMSG_SRC:-$(mktemp -d)}"
-INSTALL_LIB="${INSTALL_LIB:-/opt/homebrew/lib}"
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+INSTALL_LIB="${INSTALL_LIB:-}"
 
-if [[ ! -f "${IMSG_SRC}/Makefile" ]]; then
-  git clone --depth 1 https://github.com/openclaw/imsg.git "${IMSG_SRC}"
+make -C "${ROOT}/helper" all
+
+if [[ -n "${INSTALL_LIB}" ]]; then
+  mkdir -p "${INSTALL_LIB}"
+  cp "${ROOT}/lib/imsg-bridge-helper.dylib" "${INSTALL_LIB}/"
+  echo "Installed ${INSTALL_LIB}/imsg-bridge-helper.dylib"
 fi
 
-cd "${IMSG_SRC}"
-make build-dylib
-
-DYLIB="$(find .build -name imsg-bridge-helper.dylib | head -1)"
-if [[ -z "${DYLIB}" ]]; then
-  echo "dylib not found under .build" >&2
-  exit 1
-fi
-
-mkdir -p "${INSTALL_LIB}"
-cp "${DYLIB}" "${INSTALL_LIB}/imsg-bridge-helper.dylib"
-echo "Installed ${INSTALL_LIB}/imsg-bridge-helper.dylib"
+echo "Built ${ROOT}/lib/imsg-bridge-helper.dylib"
 echo "Requires SIP disabled: csrutil disable (Recovery mode)"

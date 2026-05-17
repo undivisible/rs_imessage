@@ -3,3 +3,5 @@
 .DS_Store
 .env
 .env.*
+/helper/imsg-upstream/
+/lib/*.dylib

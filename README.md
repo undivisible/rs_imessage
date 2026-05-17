@@ -92,7 +92,8 @@ Uses the MIT [openclaw/imsg](https://github.com/openclaw/imsg) `imsg-bridge-help
 (not GPL BlueBubbles server). Requires **SIP disabled** and Messages injection.
 
 ```bash
-./scripts/build-bridge-from-imsg.sh   # installs dylib to /opt/homebrew/lib
+./scripts/build-bridge-from-imsg.sh   # builds lib/imsg-bridge-helper.dylib from openclaw/imsg (MIT)
+# optional: INSTALL_LIB=/opt/homebrew/lib ./scripts/build-bridge-from-imsg.sh
 cargo build --features private-api
 ```
 
@@ -138,12 +139,4 @@ project is not affiliated with Apple.
 
 ## Related repos
 
-- **[mono](https://github.com/atechnology-company/mono)** — hosts `unthinkclaw` and the live gateway; depends on this crate for the macOS iMessage channel.
 - **[rs_facetime](https://github.com/undivisible/rs_facetime)** — FaceTime Audio private API (separate dylib / feature matrix).
-- **unthinkclaw-live** — archived; content moved into `mono`.
-
-## Roadmap
-
-- `unthinkclaw` `channel-rs-imsg-remote` (`RS_IMSG_URL` HTTP client)
-- `serve` routes gated on `private-api` (typing, reactions, edit/unsend)
-- Optional BlueBubbles-compatible route aliases on the same bridge

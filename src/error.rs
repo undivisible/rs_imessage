@@ -24,6 +24,9 @@ pub enum RsImsgError {
     #[error("rpc: {0}")]
     Rpc(String),
 
+    #[error("private-api: {0}")]
+    PrivateApi(String),
+
     #[error("{0}")]
     Other(String),
 }

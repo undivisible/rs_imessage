@@ -95,4 +95,10 @@ impl Client {
 
         Ok(rx)
     }
+
+    #[cfg(all(target_os = "macos", feature = "private-api"))]
+    pub fn bridge(&self) -> Result<crate::private_api::BridgeClient> {
+        let _ = self;
+        crate::private_api::BridgeClient::connect()
+    }
 }

@@ -19,6 +19,7 @@ required-features = ["cli"]
 default = []
 serve = ["dep:axum", "dep:tokio-stream"]
 cli = ["dep:clap", "dep:tracing-subscriber", "serve"]
+private-api = ["dep:uuid"]
 
 [dependencies]
 chrono = { version = "0.4", features = ["serde"] }
@@ -30,6 +31,8 @@ tokio = { version = "1", features = ["rt-multi-thread", "macros", "sync", "net"]
 tracing-subscriber = { version = "0.3", optional = true, features = ["env-filter"] }
 axum = { version = "0.7", optional = true, features = ["macros"] }
 tokio-stream = { version = "0.1", optional = true, features = ["sync"] }
+
+uuid = { version = "1", features = ["v4"], optional = true }
 
 [target.'cfg(target_os = "macos")'.dependencies]
 rusqlite = { version = "0.34", features = ["bundled"] }

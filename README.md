@@ -84,6 +84,31 @@ On non-macOS targets the crate compiles; macOS-only operations return
 | `send` | AppleScript send path |
 | `rpc` | JSON-RPC 2.0 (`run_stdio`) |
 | `types` | Stable JSON records |
+| `private_api` (`private-api` feature) | IMCore dylib bridge (openclaw/imsg protocol) |
+
+### Tier 1 — Private API (`private-api` feature)
+
+Uses the MIT [openclaw/imsg](https://github.com/openclaw/imsg) `imsg-bridge-helper.dylib`
+(not GPL BlueBubbles server). Requires **SIP disabled** and Messages injection.
+
+```bash
+./scripts/build-bridge-from-imsg.sh   # installs dylib to /opt/homebrew/lib
+cargo build --features private-api
+```
+
+```rust
+use rs_imsg::{Client, ClientConfig};
+
+let client = Client::open(ClientConfig::default())?;
+let bridge = client.bridge()?;
+bridge.ping()?;
+bridge.send_message("iMessage;-;+15551234567", "hello", None)?;
+```
+
+Set `RS_IMSG_BRIDGE_DYLIB` to override dylib search path.
+
+**FaceTime Audio** is intentionally out of scope here — use the separate
+[`rs_facetime`](https://github.com/undivisible/rs_facetime) crate.
 
 ## Optional CLI
 
@@ -114,10 +139,11 @@ project is not affiliated with Apple.
 ## Related repos
 
 - **[mono](https://github.com/atechnology-company/mono)** — hosts `unthinkclaw` and the live gateway; depends on this crate for the macOS iMessage channel.
+- **[rs_facetime](https://github.com/undivisible/rs_facetime)** — FaceTime Audio private API (separate dylib / feature matrix).
 - **unthinkclaw-live** — archived; content moved into `mono`.
 
 ## Roadmap
 
 - `unthinkclaw` `channel-rs-imsg-remote` (`RS_IMSG_URL` HTTP client)
-- Private API feature (typing, edit/unsend, rich send), behind explicit opt-in
+- `serve` routes gated on `private-api` (typing, reactions, edit/unsend)
 - Optional BlueBubbles-compatible route aliases on the same bridge

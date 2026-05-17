@@ -21,7 +21,7 @@ Apple only delivers iMessage on a **Mac signed into Messages**. The pattern we t
                                      │  LAN / Tailscale / SSH tunnel
                                      ▼
 ┌──────────────────────────── Your agent host ──────────────────────────────┐
-│  unthinkclaw / mono gateway  →  RS_IMSG_URL + token  →  send + SSE events │
+│  Any client  →  RS_IMSG_URL + Bearer token  →  send + SSE events          │
 └───────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -43,9 +43,9 @@ Remote callers use `Authorization: Bearer $RS_IMSG_TOKEN` (or `?token=`).
 | `/api/v1/messages/send` | POST | Send text / file |
 | `/api/v1/events` | GET | SSE stream of new messages |
 
-**Same machine:** link `rs_imsg` as a library (`Client`) or run `unthinkclaw --channel imsg` — no HTTP hop.
+**Same machine:** link `rs_imsg` as a library (`Client`) — no HTTP hop.
 
-**Hosted live:** use Linq in mono; the Mac bridge is for self-host / home lab.
+**Remote:** point your agent at `RS_IMSG_URL` (or a hosted iMessage API); the Mac bridge is for self-host.
 
 Library API: enable feature `serve` and call `rs_imsg::run_bridge(ServeConfig { ... }).await`.
 

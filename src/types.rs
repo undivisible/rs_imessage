@@ -55,7 +55,7 @@ pub enum WatchEventKind {
     NewMessage,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SendRequest {
     #[serde(default)]
     pub to: Option<String>,
@@ -73,7 +73,7 @@ pub struct SendRequest {
     pub service: SendService,
 }
 
-#[derive(Debug, Clone, Copy, Default, Deserialize)]
+#[derive(Debug, Clone, Copy, Default, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
 pub enum SendService {
     #[default]
@@ -82,7 +82,7 @@ pub enum SendService {
     Sms,
 }
 
-#[derive(Debug, Clone, Serialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SendResult {
     pub ok: bool,
     #[serde(skip_serializing_if = "Option::is_none")]

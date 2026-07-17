@@ -1,6 +1,6 @@
 [package]
 name = "rs_imessage"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 description = "Unstable, still in development — iMessage toolkit for macOS (chat.db, watch, send, optional bridge)"
 license = "ISC"

@@ -79,3 +79,7 @@ cargo build --features cli
 ## Related
 
 - [rs_facetime](https://github.com/undivisible/rs_facetime) — FaceTime Audio bridge (separate crate)
+
+## License
+
+ISC
